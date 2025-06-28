@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>xb67.africa — Business Acquisition Dashboard</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- SwiperJS CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
+</head>
+<body class="bg-gray-100 font-sans">
+
+  <!-- Header -->
+  <header class="bg-white shadow">
+    <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+      <h1 class="text-2xl font-bold text-blue-600">xb67.africa</h1>
+      <nav class="space-x-6">
+        <a href="#dashboard" class="text-gray-700 hover:text-blue-600">Dashboard</a>
+        <a href="#about" class="text-gray-700 hover:text-blue-600">About</a>
+        <a href="#contact" class="text-gray-700 hover:text-blue-600">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Hero Section with Carousel -->
+<section class="relative">
+  <div class="swiper mySwiper">
+    <div class="swiper-wrapper">
+      <div class="swiper-slide">
+        <img src="https://via.placeholder.com/1400x500.png?text=Oil+%26+Gas+Business" alt="Oil & Gas" class="w-full h-[500px] object-cover">
+      </div>
+      <div class="swiper-slide">
+        <img src="https://via.placeholder.com/1400x500.png?text=Consulting+Business" alt="Consulting" class="w-full h-[500px] object-cover">
+      </div>
+      <div class="swiper-slide">
+        <img src="https://via.placeholder.com/1400x500.png?text=Software+Business" alt="Software" class="w-full h-[500px] object-cover">
+      </div>
+      <div class="swiper-slide">
+        <img src="https://via.placeholder.com/1400x500.png?text=Farming+Business" alt="Farming" class="w-full h-[500px] object-cover">
+      </div>
+      <div class="swiper-slide">
+        <img src="https://via.placeholder.com/1400x500.png?text=Livestock+Business" alt="Livestock" class="w-full h-[500px] object-cover">
+      </div>
+    </div>
+    <div class="swiper-button-next"></div>
+    <div class="swiper-button-prev"></div>
+    <div class="swiper-pagination"></div>
+  </div>
+  <div class="absolute inset-0 flex items-center justify-center bg-black bg-opacity-40">
+    <h2 class="text-white text-4xl md:text-5xl font-bold text-center px-4">Discover and Acquire Africa's Most Promising Businesses with xb67.africa</h2>
+  </div>
+</section>
+
+
+  <!-- Dashboard Section -->
+  <div id="dashboard" class="container mx-auto p-6">
+    <h2 class="text-3xl font-bold mb-4 text-center text-gray-800">Business Acquisition Dashboard</h2>
+
+    <!-- Filters -->
+    <div class="flex flex-wrap gap-4 mb-6">
+      <input type="text" id="searchName" placeholder="Search by name..." class="flex-1 p-2 border rounded shadow-sm">
+      <input type="text" id="searchIndustry" placeholder="Industry..." class="flex-1 p-2 border rounded shadow-sm">
+      <input type="text" id="searchLocation" placeholder="Location..." class="flex-1 p-2 border rounded shadow-sm">
+      <select id="searchReadiness" class="flex-1 p-2 border rounded shadow-sm">
+        <option value="">Readiness</option>
+        <option value="High">High</option>
+        <option value="Medium">Medium</option>
+        <option value="Low">Low</option>
+      </select>
+      <button onclick="resetFilters()" class="bg-blue-500 text-white px-4 py-2 rounded shadow hover:bg-blue-600">Reset</button>
+    </div>
+
+    <!-- Table -->
+    <div class="overflow-x-auto bg-white shadow rounded-lg">
+      <table class="min-w-full text-sm text-left">
+        <thead class="bg-gray-200">
+          <tr>
+            <th class="p-3 cursor-pointer" onclick="sortTable(0)">Name</th>
+            <th class="p-3 cursor-pointer" onclick="sortTable(1)">Industry</th>
+            <th class="p-3 cursor-pointer" onclick="sortTable(2)">Valuation</th>
+            <th class="p-3 cursor-pointer" onclick="sortTable(3)">Years</th>
+            <th class="p-3 cursor-pointer" onclick="sortTable(4)">ARR</th>
+            <th class="p-3 cursor-pointer" onclick="sortTable(5)">Profit</th>
+            <th class="p-3">Employees</th>
+            <th class="p-3">Location</th>
+            <th class="p-3">Growth (%)</th>
+            <th class="p-3">Customers</th>
+            <th class="p-3">EBITDA (%)</th>
+            <th class="p-3">Readiness</th>
+          </tr>
+        </thead>
+        <tbody id="businessTable" class="divide-y"></tbody>
+      </table>
+    </div>
+
+    <!-- Pagination -->
+    <div id="pagination" class="flex justify-center items-center space-x-2 mt-6"></div>
+  </div>
+
+  <!-- SwiperJS -->
+  <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+  <script>
+    const businesses = Array.from({ length: 498 }, (_, i) => ({
+      name: "Business " + (i + 1),
+      industry: ["Retail", "Healthcare", "IT Services", "Agriculture", "Energy", "Logistics", "EdTech", "FinTech", "Pharma", "Real Estate"][i % 10],
+      valuation: Math.floor(Math.random() * 100) + 1,
+      years: Math.floor(Math.random() * 25) + 1,
+      arr: Math.floor(Math.random() * 80) + 1,
+      profit: Math.floor(Math.random() * 20) + 1,
+      employees: Math.floor(Math.random() * 500) + 10,
+      location: ["Nairobi, KE", "Lagos, NG", "Cape Town, ZA", "Accra, GH", "Cairo, EG", "Johannesburg, ZA", "Kigali, RW", "Casablanca, MA", "Lusaka, ZM"][i % 9],
+      growth: Math.floor(Math.random() * 50),
+      customers: Math.floor(Math.random() * 500000) + 1000,
+      ebitda: Math.floor(Math.random() * 40),
+      readiness: ["High", "Medium", "Low"][i % 3]
+    }));
+
+    const itemsPerPage = 10;
+    let currentPage = 1;
+    let filteredBusinesses = [...businesses];
+    let ascending = true;
+
+    function renderTable(data) {
+      const table = document.getElementById("businessTable");
+      const start = (currentPage - 1) * itemsPerPage;
+      const end = start + itemsPerPage;
+      const pageData = data.slice(start, end);
+
+      table.innerHTML = pageData.map(b => `
+        <tr class="hover:bg-gray-50">
+          <td class="p-3">${b.name}</td>
+          <td class="p-3">${b.industry}</td>
+          <td class="p-3">$${b.valuation}M</td>
+          <td class="p-3">${b.years}</td>
+          <td class="p-3">$${b.arr}M</td>
+          <td class="p-3">$${b.profit}M</td>
+          <td class="p-3">${b.employees}</td>
+          <td class="p-3">${b.location}</td>
+          <td class="p-3">${b.growth}%</td>
+          <td class="p-3">${b.customers.toLocaleString()}</td>
+          <td class="p-3">${b.ebitda}%</td>
+          <td class="p-3">${b.readiness}</td>
+        </tr>
+      `).join('');
+
+      renderPagination(data.length);
+    }
+
+    function renderPagination(totalItems) {
+      const totalPages = Math.ceil(totalItems / itemsPerPage);
+      const pagination = document.getElementById("pagination");
+      let pagesHtml = '';
+
+      for (let i = 1; i <= 7; i++) {
+        pagesHtml += `<button onclick="goToPage(${i})" class="px-3 py-1 rounded ${currentPage === i ? 'bg-blue-500 text-white' : 'bg-gray-200 text-gray-700 hover:bg-gray-300'}">${i}</button>`;
+      }
+      pagesHtml += `<span class="px-3 py-1">...</span>`;
+      pagesHtml += `<button onclick="goToPage(${totalPages})" class="px-3 py-1 rounded ${currentPage === totalPages ? 'bg-blue-500 text-white' : 'bg-gray-200 text-gray-700 hover:bg-gray-300'}">${totalPages}</button>`;
+
+      pagination.innerHTML = pagesHtml;
+    }
+
+    function goToPage(page) {
+      currentPage = page;
+      renderTable(filteredBusinesses);
+    }
+
+    function filterTable() {
+      const name = document.getElementById("searchName").value.toLowerCase();
+      const industry = document.getElementById("searchIndustry").value.toLowerCase();
+      const location = document.getElementById("searchLocation").value.toLowerCase();
+      const readiness = document.getElementById("searchReadiness").value;
+
+      filteredBusinesses = businesses.filter(b =>
+        b.name.toLowerCase().includes(name) &&
+        b.industry.toLowerCase().includes(industry) &&
+        b.location.toLowerCase().includes(location) &&
+        (readiness === "" || b.readiness === readiness)
+      );
+
+      currentPage = 1;
+      renderTable(filteredBusinesses);
+    }
+
+    function resetFilters() {
+      document.getElementById("searchName").value = "";
+      document.getElementById("searchIndustry").value = "";
+      document.getElementById("searchLocation").value = "";
+      document.getElementById("searchReadiness").value = "";
+      filteredBusinesses = [...businesses];
+      currentPage = 1;
+      renderTable(filteredBusinesses);
+    }
+
+    function sortTable(colIndex) {
+      const keys = ["name", "industry", "valuation", "years", "arr", "profit"];
+      const key = keys[colIndex];
+      filteredBusinesses.sort((a, b) => {
+        if (ascending) {
+          return (a[key] > b[key]) ? 1 : -1;
+        } else {
+          return (a[key] < b[key]) ? 1 : -1;
+        }
+      });
+      ascending = !ascending;
+      renderTable(filteredBusinesses);
+    }
+
+    document.getElementById("searchName").addEventListener("input", filterTable);
+    document.getElementById("searchIndustry").addEventListener("input", filterTable);
+    document.getElementById("searchLocation").addEventListener("input", filterTable);
+    document.getElementById("searchReadiness").addEventListener("change", filterTable);
+
+    const swiper = new Swiper('.mySwiper', {
+      loop: true,
+      autoplay: { delay: 4000 },
+      pagination: { el: '.swiper-pagination', clickable: true },
+      navigation: { nextEl: '.swiper-button-next', prevEl: '.swiper-button-prev' },
+      effect: "fade",
+    });
+
+    renderTable(filteredBusinesses);
+  </script>
+</body>
+</html>
